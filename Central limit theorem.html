@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+
+
+<script> 
+  
+    function percentile(q, dataset, amountOfElements){
+        q = q * amountOfElements;
+        alert(dataset[q]);
+    }
+
+    //-------------------------- Z SCORE------------
+    function findZ(){
+
+        var x = Number(zX.value);
+        var mean = Number(zMean.value);
+        var sd = Number(zStandardDev.value);
+        var n = Number(ZsampleSize.value);
+       
+        alert(x);
+        x = x - mean;
+        alert(x);
+        sd = sd / Math.sqrt(n);
+        x = x / sd;
+        document.getElementById("zscoreOutPut").innerText = "Z-Score: " + x;
+
+    }
+    
+    </script> 
+
+   
+
+</head>
+<body>
+
+<h1>The central limit theorem</h1>
+
+
+<h2>
+The goal: mean of means.
+</h2>
+    <h4><pre>Two ways to ensure it can be used: 
+        1. sample size(n) is >= 30.  
+        2. is Normal Distribution(Bell-shaped)</pre></h4>
+<br>
+<h3><pre>The mean of the sampling distribution is the mean of the population.
+  
+
+    Standard error:
+    1. Tells us about the width of the distribution of sample means.
+    2. The standard deviation of a sample statistic is called its standard error
+    σ<sub>2</sub> = σ / √n
+  Where:
+  
+  X̄ is the sampling distribution of the sample means
+  ~ means “follows the distribution”
+  N is the normal distribution
+  µ is the mean of the population
+  σ is the standard deviation of the population
+  n is the sample size
+</pre>
+</h3>
+
+<h4>
+<pre>
+    <strong>Example: </strong>
+    Assume that men’s weight are normally distributed 
+with a mean given by µ = 172 lb and a standard deviation of 29 lb (based on data from the 
+National Health Survey).
+1. (a) If 1 man is randomly selected, find the probability that his weight is greater than 180 
+lb.
+    x=180 µ = 172 sd = 29
+        Same as Z score. Z = (180 - 172) / 29 <a href="Z-Scores.html">Z-Scores</a>
+
+(b) If 100 men are randomly selected, find the probability that they have a mean weight greater 
+than 180 lb.
+
+This is done differently. The formula is (x-µ)/(sd / √n)
+x=180 µ = 172 sd = 29 n = 100
+
+Answer: Z = 2.758 Round up to 2.76 look up on table = .9971
+P(Mean %lt 180) = 1-0.9971 = 0.0029
+
+2. If 4 men are randomly selected, find the probability that they have a mean weight 
+between 160 lb and 180 lb
+
+To solve this problem we must find the Z of both 160 and 180. P(160 &lt x̅ &lt 180)
+plugged in x = 160 and n = 4 output: -0.827 (Round to -0.83)
+plugged in x = 180 and n = 4 output: 0.5517 (Round to -0.55)
+
+P(-0.83 &lt Z &lt 0.55 ) Charted: 0.55 => 0.7088 and -0.83 => 0.2033
+
+            0.7088 - 0.2033 = .5055 OR %50 chance
+
+
+Note: the sample size is less than 30. Because the sample is from a normally distributed population.
+
+</pre>
+</h4>
+<h3>Example of 1(b)</h3>
+<label>x</label>
+<input id="zX" type="text" value="180">
+<label>mean</label>
+<input id="zMean" type="text" value="172">
+<label>sd</label>
+<input id="zStandardDev" type="text" value="29">
+<label>Sample Size(N) or (n)</label>
+<input id="ZsampleSize" type="text" value="100">
+<button class="button" type="button" onclick="findZ();">Find Z-score</button>
+<h4>results</h4>
+<h4 id="zscoreOutPut"></h4>
+
+
+<h4>Imagining an experiment may help you to understand sampling distributions:
+
+    Suppose that you draw a random sample from a population and calculate a statistic for the sample, such as the mean.
+    Now you draw another random sample of the same size, and again calculate the mean.
+    You repeat this process many times, and end up with a large number of means, one for each sample.
+</h4>
+<a href="https://www.scribbr.com/statistics/central-limit-theorem/">Source</a>
+
+</body>
+</html>

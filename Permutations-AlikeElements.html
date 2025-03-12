@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2 style="color:yellow;" >Permutations(n<sub>1</sub> alike....)</h2>
+<h2><sub>n</sub>P<sub>r</sub> = n! / n<sub>1</sub>! n<sub>2</sub>!....n<sub>k</sub>!</h2>
+<h3>  Number of different permutations (order counts) when n items are available and all n are 
+    selected without replacement, but some of the items are identical to others: n1 are alike, n2 are alike, . . . nk are alike</h3>
+	<h4 style="background-color: yellow; color:red; text-align: center;
+  display: inline-block;"><strong>Example:</strong> How many different ways can the letters of “statistics” be arranged?</h4>
+    <h2>Number of objects or in this case, letters.<br> N = 10</h2>
+    <h2>Subsets: S = 3; T = 3; A = 1; I = 2; C = 1;</h2>
+    <h3>We do not need the ones</h3>
+    <h2>10! / (3! x 3! x 2!)</h2>
+
+<h4 style="color:yellow;">N</h4>
+<input id="textbox1" type="text" value="10">
+<h4 style="color:yellow;">K</h4>
+<input id="textbox2" type="text" value="3!3!2">
+
+<p id="pre-result">Pre-results</p>
+<p id="result"><sub>n</sub>P<sub>r</sub> =  </p>
+<p id="result2">results 2</p>
+
+ <hr style="border: 1px solid blue;" />
+
+<script> 
+function add(){
+
+var n = Number(textbox1.value);
+//var r = Number(textbox2.value);
+var fractN = factorial(n);
+
+let text = textbox2.value;
+const myArray = text.split("!");
+var subsetOutput = 1;
+
+for(var i in myArray){
+   
+    myArray[i] = factorial(myArray[i]); // store factorial in array
+   
+    subsetOutput *= myArray[i];  //accumulate factorial elements
+}
+
+var fractR  = subsetOutput;
+//fractR= factorial(fractR);
+var output =  fractN + " / " + fractR;
+document.getElementById("pre-result").innerHTML = "<p>n! / n<sub>1</sub>! n<sub>2</sub>!....n<sub>k</sub>!</p>" + output.toString();
+//output
+output =  fractN / fractR;
+document.getElementById("result").innerHTML += output.toString();
+sciNotation();
+
+}
+
+function factorial(n) { 
+    let ans = 1; 
+    
+    if(n === 0)
+        return 1;
+    for (let i = 2; i <= n; i++) 
+        ans = ans * i; 
+    return ans; 
+}
+
+function sciNotation(){
+
+	var string = document.getElementById("result");
+
+	var main = string.innerText.substring(0,1);
+	var twoDec = string.innerText.substring(1,3) ;
+	var length = string.innerText.length;
+	length = length - 1;
+	
+	var output = "<p>" + main + "." + twoDec + "x10" + "<sup>" + length + "</sup></p>" 
+	document.getElementById("result2").innerHTML = output.toString();
+
+}
+</script> 
+
+
+<button class="button" type="button" onclick="add();">Add</button>
+
+</body>
+</html>

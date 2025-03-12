@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+
+
+<script> 
+  
+    function percentile(q, dataset, amountOfElements){
+        q = q * amountOfElements;
+        alert(dataset[q]);
+    }
+
+    //-------------------------- Z SCORE------------
+    function findZ(){
+
+        var x = Number(zscore.value);
+        var mean = Number(zMean.value);
+        var sd = Number(zStandardDev.value);
+       
+        alert(x);
+        x = x - mean;
+        alert(x);
+        x = x / sd;
+        document.getElementById("zscoreOutPut").innerText = "Z-Score: " + x;
+
+    }
+    
+    </script> 
+
+   
+
+</head>
+<body>
+
+<h1>Z-Scores</h1>
+
+<h2>Probabilty can be found using a Z-score. You need the <a href="https://ztable.io/">Chart.</a></h2>
+<h4><strong>Example: </strong>What is the score if you want to find the Probabilty of getting 75% or higher.</h4>
+<h4>First you must find the z-score.</h4>
+
+<h3><Strong>Formula: (x - µ) / σ </Strong></h3>
+<h4>x = 75</h4>
+<h4 id="mean2">54</h4>
+<h4 id="sd2">17.987918650897452</h4>
+<h4>In this Example the Z-Score is 1.1674502429969722. we round to 1.16 and go to the <a href="https://ztable.io/">Chart.</a></h4>
+<h4>Scroll down until you see the Table, ignore the bars. Find 1.16 on the table, in this case 0.87698 is what we get...</h4>
+<h4>However, that is not our probability. Remember, a lot of people did bad on this test. The top 87% scored 75 or higher.</h4>
+<h4>So we subtract 0.87698 from 1 => 1 - 0.87698 = 0.13 or 13% chance to score 75 or higher and 87% chance to score lower than 75</h4>
+<label>X = </label>
+<input id="zscore" type="text" value="75">
+<label>X = </label>
+<input id="zMean" type="text" value="54">
+<label>X = </label>
+<input id="zStandardDev" type="text" value="17.987918650897452">
+<button class="button" type="button" onclick="findZ();">Find Z-score</button>
+<h4>results</h4>
+<h4 id="zscoreOutPut"></h4>
+
+
+
+</body>
+</html>

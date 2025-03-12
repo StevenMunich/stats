@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+
+
+<script> 
+    // add subtract multiply divide and power 2 numbers.
+    
+    var global_Mean, global_SD;
+    
+    function add(){
+    
+    //var dataSet = textbox1.value;
+    var minValue = Number(textbox2.value);
+    var maxValue = Number(textbox3.value);
+    var totalRange = maxValue - minValue;
+    var bounds = Number(textbox4.value);
+    var amount_of_bounds = totalRange / bounds;
+    var amountOfElements = 0; //is incremented /set during classification below
+
+    let text = textbox1.value;
+    const dataset = text.split(" ");
+   
+
+    alert(dataset);
+
+    //set up the ranges
+    const ranges = new Array(amount_of_bounds);   
+    for(var i=0; i < amount_of_bounds; i++){
+        ranges[i] = 0;
+    }
+    //clasify each element
+    for(var element in dataset){
+        var tempBounds = bounds;
+        for(var i=0; i < amount_of_bounds; i++){
+            if(dataset[element] < tempBounds){ //if element < upperBounds increment range
+                ranges[i] += 1;
+                break;
+            }
+            tempBounds += bounds;
+        }//end inner - classification
+        amountOfElements++;
+    }//end outer
+    
+    printBarGraph(bounds, ranges, minValue);
+    //Mean
+    var mean = findMean(dataset, amountOfElements);
+    global_Mean = mean; //for use later on....
+    document.getElementById("mean").innerText = "Mean: " + mean;
+    document.getElementById("mean2").innerText = "µ = " + mean;
+    document.getElementById("zMean").value = mean;
+    
+    //Standard Deviation
+    var standardDeviation = findStandardDeviation(dataset, amountOfElements, mean);
+    global_SD = standardDeviation;  
+    document.getElementById("sd").innerText = "Standard deviation: " + standardDeviation;
+    document.getElementById("sd2").innerText = "σ = " + standardDeviation;
+    document.getElementById("zStandardDev").value = standardDeviation;
+    //alert(standardDeviation);
+
+    //Z-Score setup
+    
+    percentile(.25, dataset, amountOfElements);
+    
+    document.getElementById("zScoreDiv").style.visibility = "visible";
+
+    }//end function
+
+    function findStandardDeviation(dataset, amountOfElements, mean){
+            var sum = 0;
+            var denominator = amountOfElements -1;
+
+             // Σ(x - mean) 
+            for(var element in dataset){
+                var temp = dataset[element];
+                temp -= mean;
+                temp *= temp;
+                sum += temp;
+            }//end loop
+             
+            //divided by....
+            sum = sum / denominator;
+            var sd = Math.sqrt(sum); //squared into standard deviation
+        return sd;
+    }//end function
+
+    function findMean(dataset, amountOfElements){
+        var total = Number(0);
+        for(var element in dataset){
+            total += Number(dataset[element]);         
+        }//end loop
+
+        var mean = total / amountOfElements;
+        return mean;
+    }//end function
+
+    function printBarGraph(bounds, ranges, minValue){
+         //print bar graph
+    var tempBounds = bounds;
+    var bars = "<p>" + minValue;
+    for(var rows in ranges){
+       // bars += ranges[rows];
+        for(var i=0; i < ranges[rows]; i++)
+            bars += "[]";
+        //end innerLoop
+        bars += "<br>";
+        bars += tempBounds.toString();
+        tempBounds += bounds;
+    }//end outerLoop
+    bars += "</p>";
+    document.getElementById("barGraph").innerHTML = bars;
+    }//end function
+
+    function percentile(q, dataset, amountOfElements){
+        q = q * amountOfElements;
+        alert(dataset[q]);
+    }
+
+    //-------------------------- Z SCORE------------
+    function findZ(){
+
+        var x = Number(zscore.value);
+        var mean = Number(zMean.value);
+        var sd = Number(zStandardDev.value);
+       
+        alert(x);
+        x = x - mean;
+        alert(x);
+        x = x / sd;
+        document.getElementById("zscoreOutPut").innerText = "Z-Score: " + x;
+
+    }
+    
+    </script> 
+
+   
+
+</head>
+<body>
+
+<h1 style="color:yellow; text-align: center;" >Discrete statistics</h1>
+<h2><strong>Example: </strong>Final Exam Scores</h2>
+
+<h4 style="color:yellow;">Data Set</h4>
+<input id="textbox1" type="text" value="17 33 33 39 41 41 45 45 47 47 47 49 51 55 56 56 59 64 67 71 76 78 82 97">
+<h4 style="color:yellow;">Range for Graph:</h4>
+<h5>Min:</h5>
+<input id="textbox2" type="text" value="0">
+<h5>Max:</h5>
+<input id="textbox3" type="text" value="100">
+<h4 style="color:yellow;">Bounds:</h4>
+<input id="textbox4" type="text" value="10">
+
+<p id="result">results</p>
+<p id="mean"></p>
+<p id="sd"></p>
+
+<p id="barGraph" style="text-align: left;"></p>
+
+ <hr style="border: 1px solid blue;" />
+
+
+<button class="button" type="button" onclick="add();">Analyze Data Set</button>
+
+<br>
+<hr>
+
+<div id="zScoreDiv" style="visibility: hidden">
+<h2>Probabilty can be found using a Z-score. You need the <a href="https://ztable.io/">Chart.</a></h2>
+<h4><strong>Example: </strong>What is the score if you want to find the Probabilty of getting 75% or higher.</h4>
+<h4>First you must find the z-score.</h4>
+
+<h3><Strong>Formula: (x - µ) / σ </Strong></h3>
+<h4>x = 75</h4>
+<h4 id="mean2"></h4>
+<h4 id="sd2"></h4>
+<h4>In this Example the Z-Score is 1.1674502429969722. we round to 1.16 and go to the <a href="https://ztable.io/">Chart.</a></h4>
+<h4>Scroll down until you see the Table, ignore the bars. Find 1.16 on the table, in this case 0.87698 is what we get...</h4>
+<h4>However, that is not our probability. Remember, a lot of people did bad on this test. The top 87% scored 75 or higher.</h4>
+<h4>So we subtract 0.87698 from 1 => 1 - 0.87698 = 0.13 or 13% chance to score 75 or higher and 87% chance to score lower than 75</h4>
+<label>X = </label>
+<input id="zscore" type="text" value="75">
+<label>X = </label>
+<input id="zMean" type="text">
+<label>X = </label>
+<input id="zStandardDev" type="text">
+<button class="button" type="button" onclick="findZ();">Find Z-score</button>
+<h4>results</h4>
+<h4 id="zscoreOutPut"></h4>
+</div>
+
+</body>
+</html>

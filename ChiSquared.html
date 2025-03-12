@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+
+<script>
+    function getPValue(){
+        var x = Number(pValueInput.value);
+        var n = Number(pValueSampleSize.value);
+
+        x = x/n;
+
+        document.getElementById("pValueResults").innerText = x;
+
+    }
+
+    function getTValue(){
+        var x = Number(tValueInput.value);
+        var n = Number(tValueSampleSize.value);
+
+        //One Tail
+        x = 1-x;
+        x = x / 2;
+        //Degrees of Freedom
+        n = n - 1;
+
+        document.getElementById("tValueResults").innerText = "One Tail = " + x + "\nDegrees of Freem = " + n;
+    }
+
+    function getEValue(){
+        var x = Number(eValueInput.value);
+        var n = Number(eValueSampleSize.value);
+        var t = Number(tValue.value);
+        var q = Number(1 - x);
+
+        alert(x);
+        alert(n);
+        alert(t);
+        alert(q);
+
+        //Formula
+        var result = Number(t * (Math.sqrt((x * q) / n)));
+        alert(result);
+
+        document.getElementById("eValueResults").innerText = "Margin of Error: " + result;
+
+    }
+
+    function getCI(){
+        var x = Number(marginOfE.value);
+        var n = Number(pointE.value);
+        var higher = x + n;
+        var lower = x - n;
+
+        var results = "Confidence Interval: " + lower + " < p < " + higher;
+
+        document.getElementById("CIresults").innerText = results;
+
+    }
+
+</script>
+        
+
+   
+
+</head>
+<body>
+
+<h2>Important Note: Degrees of Freedom = n - 1</h2>
+<h2>Remember in statistics we are estimating sometimes. Some numbers may be rounded up or down.</h2>
+<h3>Like margin of error is approximated to .04 from .035</h3>
+
+<h2>1. Mendelian Genetics When Mendel conducted his famous genetics experiments with 
+    peas, one sample of offspring consisted of 428 green peas and 152 yellow peas. Based on 
+    his theory of genetics, Mendel expected that 25% of the offspring peas would be yellow. 
+    Find a 95% confidence interval estimate of the percentage of yellow peas.</h2>
+
+    <h3>a. Find the point estimate.</h3>
+    <label>X</label><br>
+    <input type="text" id="pValueInput"value="152"><br>
+    <label>N(428+152)</label><br>
+    <input type="text" id="pValueSampleSize" value="580"><br>
+    <button onclick="getPValue()">Calculate</button><br>
+    <p>results</p>
+    <p id="pValueResults"></p>
+    <h4>After we get the point estimate we move on to the next step</h4>
+    <hr>
+    <h3>b. Find the critical value(s).</h3>
+    <h3>To solve this we need a chart: </h3>
+    <p>There are better charts.</p>
+    <img src="images/tChart.jfif">
+    <h3>We also need to know the degrees of Freedom which as Noted at the top of this page is n-1</h3>
+    <h3>Because we are looking for 95% we find the area of the tail(s) with this: 1-.95 = .05</h3>
+    <h3>Divide .05 by two for area in one tail.</h3>
+    <h3>Formula: (1 - CI) / 2</h3>
+    <label>Point Estimate</label>
+    <input type="text" id="tValueInput"value=".26"><br>
+
+    <label>N(428+152)</label><br>
+    <input type="text" id="tValueSampleSize" value="580"><br>
+    <button onclick="getTValue()">Calculate</button><br>
+    <p>results</p>
+    <p id="tValueResults"></p>
+
+    <p>Below is another chart</p>
+    <img src="images/tChart2.webp">
+    <h3>In this case it is 1.96</h3>
+    <h3>Now that we have the critical value we can move on to step 3. Finding the margin of Error</h3>
+    <hr>
+    <h2>c. Find the margin of error.</h2>
+    <h4><pre>
+        <h3>Formula: E  = T * √(p̂Q̂/n) </h3>
+        T = critical value FOUND IN STEP 2
+        p̂(p Hat) = number of success
+        Q̂(q hat) = number of failures (1 - p̂) Very easy to find.
+        n = sample size
+    </pre></h4>
+    <label>p̂(p Hat)</label><br>
+    <input type="text" id="eValueInput"value=".26"><br>
+    <label>T value:</label>
+    <input type="text" id="tValue"value="1.96"><br>
+    <label>N(428+152)</label><br>
+    <input type="text" id="eValueSampleSize" value="580"><br>
+    <button onclick="getEValue()">Calculate</button><br>
+    <p>results</p>
+    <p id="eValueResults"></p>
+    <br>
+    <hr>
+    <h2>d. Construct the confidence interval.</h2>
+    <h4>This is very easy once you have E(the margin of error). Which we approximate from .035 to .04</h4>
+    <h3> the formula is p̂(p Hat) +- E</h3>
+
+    <label>Margin of Error</label><br>
+    <input type="text" id="marginOfE"value=".04"><br>
+    <label>Point Estimate</label><br>
+    <input type="text" id="pointE" value=".26"><br>
+    <button onclick="getCI()">Calculate</button><br>
+    <p>results</p>
+    <p id="CIresults"></p>
+    <br>
+    <hr>
+    <h2>e. Based on his theory of genetics, Mendel expected that 25% of the offspring peas 
+        would be yellow. Given that the percentage of offspring yellow peas is not 25%, do 
+        the results contradict Mendel's theory? Why or why not?
+        </h2>
+
+    <br>
+    <h3>It is not a contradiction because .25 falls into the Interval</h3>
+
+</body>
+</html>

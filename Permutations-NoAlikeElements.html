@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+
+
+        
+
+   
+
+</head>
+<body>
+
+<h2 style="color:yellow;" >Permutations(no elements alike)</h2>
+<h2><sub>n</sub>P<sub>r</sub> = n! / (n - r )! r!</h2>
+<h3>  Number of different combinations (order does not count) when n different items are available, 
+	but only r of the n items are selected without replacement. (Note that rearrangements of the same items are counted 
+	as being the same.)</h3>
+	<h4><strong>Example:</strong> Winning the jackpot in the Florida Lotto requires that you choose six different numbers from 1 
+		to 53, and your numbers must match the same six numbers that are later drawn. The order of the selected 
+		numbers does not matter. If you buy one ticket, what is the probability of winning the jackpot? N = 53 R = 6</h4>
+
+<h4 style="color:yellow;">N</h4>
+<input id="textbox1" type="text" value="53">
+<h4 style="color:yellow;">R</h4>
+<input id="textbox2" type="text" value="6">
+
+<p id="result">results</p>
+<p id="result2">results 2</p>
+
+ <hr style="border: 1px solid blue;" />
+
+<script> 
+// add subtract multiply divide and power 2 numbers.
+
+
+function add(){
+
+var n = Number(textbox1.value);
+var r = Number(textbox2.value);
+
+
+var fractN = factorial(n);
+var fractR  = n - r;
+fractR= factorial(fractR);
+fractR = fractR * factorial(r);
+var output =  fractN/fractR;
+document.getElementById("result").innerHTML = output.toString();
+sciNotation();
+
+}
+
+function factorial(n) { 
+    let ans = 1; 
+    
+    if(n === 0)
+        return 1;
+    for (let i = 2; i <= n; i++) 
+        ans = ans * i; 
+    return ans; 
+}
+
+function sciNotation(){
+
+	var string = document.getElementById("result");
+
+	var main = string.innerText.substring(0,1);
+	var twoDec = string.innerText.substring(1,3) ;
+	var length = string.innerText.length;
+	length = length - 1;
+	
+	var output = "<p>" + main + "." + twoDec + "x10" + "<sup>" + length + "</sup></p>" 
+	document.getElementById("result2").innerHTML = output.toString();
+
+}
+
+
+
+
+</script> 
+
+
+<button class="button" type="button" onclick="add();">Add</button>
+
+
+
+
+
+
+</body>
+</html>
