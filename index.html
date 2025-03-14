@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="descriptive.js"></script>
+<script> 
+    
+    
+
+
+    //starts on load, registers event listeners
+    function start(){
+        //File Upload
+        document.getElementById('fileInput').addEventListener('change', function(event) {       
+           const file = event.target.files[0]; //get the file
+       
+                   if (file) {
+                    
+                       const reader = new FileReader(); //read it
+                       reader.onload = function(e) {
+                           document.getElementById('textbox1').value = e.target.result; //set the textbox to the file content
+                       };
+                       reader.readAsText(file);
+                   }
+    });
+    document.getElementById("AnalyzeDataSet").addEventListener("click", add); //analyze button
+    document.getElementById("btnpercentile").addEventListener("click", percentile); //percentile button
+    document.getElementById("findZ").addEventListener("click", findZ); //zscore button
+    document.getElementById("zScoreDiv").style.visibility = "hidden"; //hide zscore div until needed
+
+    }
+
+    window.addEventListener('load',start);
+    
+    </script> 
+
+   <style>
+    h4{
+        color:yellow;
+    }
+   </style>
+
+</head>
+<body style="text-align: center">
+
+<h1 style="color:yellow; text-align: center;" >Discrete statistics</h1>
+<h2><strong>Example: </strong>Final Exam Scores</h2>
+
+<h4>Data Set: upload your own, use spaces to seperate.</h4>
+<input id="textbox1" type="text" value="17 33 33 39 41 41 45 45 47 47 47 49 51 55 56 56 59 64 67 71 76 78 82 97">
+<input type="file" id="fileInput" accept="text/*" text="Click me">
+<p id="fileContent">content</p>
+
+<h4>Range for Graph:</h4>
+<label>Min:</label>
+<input id="textbox2" type="text" value="0">
+<label>Max:</label>
+<input id="textbox3" type="text" value="100">
+<label>Range Size:</label>
+<input id="textbox4" type="text" value="10">
+
+<span>
+<p id="result">results</p>
+<p id="mean"></p>
+<p id="sd"></p>
+</span>
+
+<p id="barGraph" style="text-align: left;"></p>
+
+ <hr style="border: 1px solid blue;" />
+
+
+<button id="AnalyzeDataSet" class="button" type="button">Analyze Data Set</button>
+
+<br>
+<!--bar Chart-->
+<div style="background:white;">
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+</div>
+
+<hr>
+<label>Percentile</label>
+<input type="text" id="percentile" value="0.75" >
+<button class="button" type="button" id="btnpercentile">Find Percentile</button>
+<p id="percentileOutPut"></p>
+
+<div id="zScoreDiv">
+<h2>Probabilty can be found using a Z-score. You need the 
+<a href="https://ztable.io/">Chart.</a></h2>
+<h4><strong>Example: </strong>What is the score if you want to find the Probabilty of getting 75% or higher.</h4>
+<h4>First you must find the z-score.</h4>
+
+<h3><Strong>Formula: (x - µ) / σ </Strong></h3>
+<h4>x = 75</h4>
+<h4 id="mean2"></h4>
+<h4 id="sd2"></h4>
+<h4>In this Example the Z-Score is 1.1674502429969722. we round to 1.16 and go to the <a href="https://ztable.io/">Chart.</a></h4>
+<h4>Scroll down until you see the Table, ignore the bars. Find 1.16 on the table, in this case 0.87698 is what we get...</h4>
+<h4>However, that is not our probability. Remember, a lot of people did bad on this test. The top 87% scored 75 or higher.</h4>
+<h4>So we subtract 0.87698 from 1 => 1 - 0.87698 = 0.13 or 13% chance to score 75 or higher and 87% chance to score lower than 75</h4>
+<label>X = </label>
+<input id="zscore" type="text" value="75">
+<label>µ = </label>
+<input id="zMean" type="text">
+<label>σ = </label>
+<input id="zStandardDev" type="text">
+<button id="findZ" class="button" type="button">Find Z-score & plot</button>
+<h4>results</h4>
+<h4 id="zscoreOutPut"></h4>
+<!--Bell Curve-->
+<div style="background:white;">
+    <canvas id="bellCurveChart" style="width:100%;max-width:600px"></canvas>
+</div>
+
+
+</div>
+
+<footer>
+    <a href="home.html">learn more about statistics!</a>
+    <br>
+    Site design / logo © 2025 Stack Exchange Inc; user contributions licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">cc by-sa 4.0</a>.
+    <br>
+
+</footer>
+
+</body>
+</html>
+<!-- OLD CODE
+<script>
+        function printBarGraph(bounds, ranges, minValue, ){
+         //print bar graph
+    var tempBounds = bounds;
+    var bars = "<p>" + minValue;
+    for(var rows in ranges){
+       // bars += ranges[rows];
+        for(var i=0; i < ranges[rows]; i++)
+            bars += "[]";
+        //end innerLoop
+        bars += "<br>";
+        bars += tempBounds.toString();
+        tempBounds += bounds;
+    }//end outerLoop
+    bars += "</p>";
+    document.getElementById("barGraph").innerHTML = bars;
+    }//end function
+</script
+-->
