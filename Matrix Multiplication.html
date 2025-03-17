@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>IPF</title>
+<link rel="stylesheet" href="style.css">
+
+       
+
+        <script>
+             var matrix_A_rowCount = 0;
+             var matrix_A_columnCount = 0;
+
+             var matrix_B_rowCount = 0;
+             var matrix_B_columnCount = 0;
+
+            function createMatrixA() {
+                var rowsString = document.getElementById("rows").value;
+                var columnsString = document.getElementById("columns").value ;
+                var matrixContainer = document.getElementById("matrixContainerA");
+                matrixContainer.innerHTML = ""; // Clear previous matrix
+                
+                var rows = parseInt(rowsString, 10);
+                matrix_A_rowCount  = rows;
+                // radix=10 is used to specify that the number is in base 10
+                var columns = parseInt(columnsString, 10);
+                matrix_A_columnCount = columns;
+
+                if (rows <= 0 || columns <= 0) {
+                        alert("Please enter positive integers for rows and columns.");
+                        return;
+                } 
+                
+                //creates matrix input
+                var StringId = "0";
+                var count = 0;
+                for (var i = 0; i < rows; i++) {
+                    var rowDiv = document.createElement("br");
+                    for (var j = 0; j < columns; j++) {
+                        count++;
+                        StringId = "A" + i + "" + j;
+                        var input = document.createElement("input");
+                        input.id = StringId;
+                        input.value = count;
+                        input.type = "number";
+                        input.className = "matrixInput";
+                        matrixContainer.appendChild(input);
+                    }
+                    matrixContainer.appendChild(rowDiv);
+                }//end loop
+                
+                
+            }//end of create A Matrix
+
+            function createMatrixB() {
+                var rowsString = document.getElementById("rows2").value;
+                var columnsString = document.getElementById("columns2").value ;
+                var matrixContainer = document.getElementById("matrixContainerB");
+                matrixContainer.innerHTML = ""; // Clear previous matrix
+                
+                var rows = parseInt(rowsString, 10);
+                matrix_B_rowCount  = rows;
+                // radix=10 is used to specify that the number is in base 10
+                var columns = parseInt(columnsString, 10);
+                matrix_B_columnCount = columns;
+
+                if (rows <= 0 || columns <= 0) {
+                        alert("Please enter positive integers for rows and columns.");
+                        return;
+                } 
+
+                // Create the matrix inputs
+                var StringId = "0";
+                var count = 0;
+                for (var i = 0; i < rows; i++) {
+                    var rowDiv = document.createElement("br");
+                    for (var j = 0; j < columns; j++) {
+                        count++;
+                        StringId = "B" + i + "" + j;
+                        var input = document.createElement("input");
+                        input.id = StringId;
+                        input.value = count;
+                        input.type = "number";
+                        input.className = "matrixInput";
+                        matrixContainer.appendChild(input);
+                    }
+                    matrixContainer.appendChild(rowDiv);
+                }//end loop
+                
+            }//end of create B Matrix
+
+            function addMatrices(){
+                var matrixContainerA = document.getElementById("matrixContainerA");
+                var matrixContainerB = document.getElementById("matrixContainerB");
+                var resultContainer = document.getElementById("resultContainer");
+                resultContainer.innerHTML = ""; // Clear previous result
+
+                if (matrix_A_rowCount != matrix_B_rowCount || matrix_A_columnCount != matrix_B_columnCount) {
+                    alert("Matrices must have the same dimensions for addition.");
+                    return;
+                }
+
+                var resultMatrix = document.createElement("div");
+                for (var i = 0; i < matrix_A_rowCount; i++) {
+                    var rowDiv = document.createElement("br");
+                    for (var j = 0; j < matrix_A_columnCount; j++) {
+                        var inputA = document.getElementById("A" + i + "" + j).value;
+                        var inputB = document.getElementById("B" + i + "" + j).value;
+                        var sum = parseInt(inputA, 10) + parseInt(inputB, 10);
+                        var resultInput = document.createElement("input");
+                        resultInput.value = sum;
+                        resultInput.type = "number";
+                        resultInput.className = "resultInput";
+                        resultMatrix.appendChild(resultInput);
+                    }
+                    resultMatrix.appendChild(rowDiv);
+                }
+                resultContainer.appendChild(resultMatrix);
+            }
+
+            function multiplyMatrices(){
+                var matrixContainerA = document.getElementById("matrixContainerA");
+                var matrixContainerB = document.getElementById("matrixContainerB");
+                var resultContainer = document.getElementById("resultContainer");
+                resultContainer.innerHTML = ""; // Clear previous result
+
+                var work = ""; //recording operations
+
+                if (matrix_A_columnCount != matrix_B_rowCount) {
+                    alert("Number of columns in Matrix A must equal number of rows in Matrix B for multiplication.");
+                    return;
+                }
+
+                
+                
+                var resultMatrix = document.createElement("div");
+                for (var i = 0; i < matrix_A_rowCount; i++) {
+                    var rowDiv = document.createElement("br");
+                    for (var j = 0; j < matrix_B_columnCount; j++) {
+                        var sum = 0;
+                        //remember to turn the row sideways(into a colum) and multiply, then add to get the cell.
+                        for (var k = 0; k < matrix_A_columnCount; k++) { 
+                            var inputA = document.getElementById("A" + i + "" + k).value;
+                            var inputB = document.getElementById("B" + k + "" + j).value;
+                            sum += parseInt(inputA, 10) * parseInt(inputB, 10);
+                            work += "A" + i + "" + k + " x B" + k + "" + j + " = " + inputA + " x " + inputB + "sum=" + sum + "<br>";
+                            //first operation is 1x1 a00 x b00
+                            // second is 2x3 is a01 x b10                           
+                        }
+                        work += "writting sum to cell (" + i + "," + j + ")<br><br>";
+                        //K loop is finished and sum is result for that cell
+                        //second K Loop is 1x2 + 2x4 a00 x b01 + a01 x b11
+                        // and J is incremented.
+                        var resultInput = document.createElement("input");
+                        resultInput.value = sum;
+                        resultInput.type = "number";
+                        resultInput.className = "resultInput";
+                        resultMatrix.appendChild(resultInput);
+                    }//After J is finished we go to the next row
+                    //third K Loop is 3x1 a10 x b00 + a11 x b10 = 15
+                    //fourth K Loop is 3x2 a10 x b01 + a11 x b11 = 22
+                    resultMatrix.appendChild(rowDiv);
+                }//end loop
+                //is O Cubed. O(n^3)
+                resultContainer.appendChild(resultMatrix);
+                var workDiv = document.createElement("label");
+                workDiv.innerHTML = work; // Display the operations performed
+                resultContainer.appendChild(workDiv);
+            }//end function multiplyMatrices()
+
+            function clearALL() {
+                var matrixContainerA = document.getElementById("matrixContainerA");
+                var matrixContainerB = document.getElementById("matrixContainerB");
+                var resultContainer = document.getElementById("resultContainer");
+                matrixContainerA.innerHTML = ""; // Clear previous matrix
+                matrixContainerB.innerHTML = ""; // Clear previous matrix
+                resultContainer.innerHTML = ""; // Clear previous result
+            }
+            function clearResults(){
+                var resultContainer = document.getElementById("resultContainer");
+                resultContainer.innerHTML = ""; // Clear previous result
+            }
+
+            function start(){
+                var createMatrixButtonA = document.getElementById("createMatrixA");
+                createMatrixButtonA.addEventListener("click", createMatrixA);   
+                
+                var createMatrixButtonB = document.getElementById("createMatrixB");
+                createMatrixButtonB.addEventListener("click", createMatrixB); 
+
+                var addButton = document.getElementById("add");
+                addButton.addEventListener("click", addMatrices);
+
+                var multiplyButton = document.getElementById("multiply");
+                multiplyButton.addEventListener("click", multiplyMatrices);
+
+                var clearResultsButton = document.getElementById("clearResults");
+                clearResultsButton.addEventListener("click", clearResults);
+
+                var clearALLButton = document.getElementById("clearAll");
+                clearALLButton.addEventListener("click", clearALL);
+                
+            }
+            window.addEventListener("load", start);
+            
+        </script>
+
+   
+
+</head>
+<body>
+
+    <h2 style="color:yellow;">Intro to Matrix and Vector Multiplication</h2>
+
+<pre>   (1  2)    (1  2) 
+     (3  4)  x (3  4)
+
+    (1x1 + 2x3) (1x2 + 2x4) 
+    (3x1 + 4x3) (3x2 + 4x4)
+    
+    = (7 10)
+      (15 22)
+    </pre>
+
+    <h3>Create Matrix: Dimensions</h3>
+    <h3>Matrix A:</h3>
+    <label>Dimensions: </label>
+    <input type="text" id="columns" value="2">
+    <input type="text" id="rows" value="2">
+    <button id="createMatrixA">Create Matrix A</button>
+    <p>Cells</p>
+    <div id="matrixContainerA"></div>
+    <br>
+    <h3>Matrix B:</h3>
+    <label>Dimensions: </label>
+    <input type="text" id="columns2" value="2">
+    <input type="text" id="rows2" value="2">
+    <button id="createMatrixB">Create Matrix B</button>
+    <p>Cells</p>
+    <div id="matrixContainerB"></div>
+    <h3>Matrix Operations</h3>
+    <button id="add">Addition</button>
+    <button id="multiply">Multiply</button>
+    <h3>Results: </h3>
+    <div id="resultContainer"></div>
+    <button id="clearResults">Clear Results</button>
+    <button id="clearAll">Clear All Matrices</button>
+</body>
+</html>
