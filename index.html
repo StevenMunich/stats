@@ -13,10 +13,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script src="descriptive.js"></script>
 <script> 
-    
-    
-
-
     //starts on load, registers event listeners
     function start(){
         //File Upload
@@ -36,7 +32,6 @@
     document.getElementById("btnpercentile").addEventListener("click", percentile); //percentile button
     document.getElementById("findZ").addEventListener("click", findZ); //zscore button
     document.getElementById("zScoreDiv").style.visibility = "hidden"; //hide zscore div until needed
-
     }
 
     window.addEventListener('load',start);
@@ -77,7 +72,6 @@
 <p id="barGraph" style="text-align: left;"></p>
 
  <hr style="border: 1px solid blue;" />
-
 
 <button id="AnalyzeDataSet" class="button" type="button">Analyze Data Set</button>
 
@@ -126,6 +120,7 @@
 
 <footer>
     <a href="home.html">learn more about statistics!</a>
+    <a href="https://www.simplypsychology.org/effect-size.html">P-value is not enough! Learn about Effect Size</a>
     <br>
     Site design / logo © 2025 Stack Exchange Inc; user contributions licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">cc by-sa 4.0</a>.
     <br>
