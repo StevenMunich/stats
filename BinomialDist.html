@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta charset="utf-8">
@@ -8,53 +7,17 @@
 
 <title>IPF</title>
 <link rel="stylesheet" href="style.css">
-
-
-
-        
-
-   
-
-</head>
-<body>
-
-<h2 style="color:yellow;" >Permutations(no elements alike)</h2>
-<h2><sub>n</sub>P<sub>r</sub> = n! / (n - r )!</h2>
-<h3> Number of different permutations (order counts) when n different items are available, but 
-	only r of them are selected without replacement</h3>
-	<h4><strong>Example:</strong> A fan of Lady Antebellum music plans to make a custom CD with 12 of their 27 songs to listen to while 
-		the run. Since they need additional motivation at the end on their run they have decided to put their most favorite 
-		songs last (in effect ranking them in reverse order). How many different combinations of 12 songs are possible? Is it 
-		practical to make a different CD for each possible combination? N = 27 R = 12</h4>
-
-<h4 style="color:yellow;">N</h4>
-<input id="textbox1" type="text">
-<h4 style="color:yellow;">R</h4>
-<input id="textbox2" type="text">
-
-<p id="result">results</p>
-<p id="result2">results 2</p>
-
- <hr style="border: 1px solid blue;" />
-
 <script> 
-// add subtract multiply divide and power 2 numbers.
 
+function binomial() {
+    var n = parseFloat(document.getElementById("n").value);
+    var p = parseFloat(document.getElementById("p").value);
+    var q = parseFloat(document.getElementById("q").value);
+    var x = parseFloat(document.getElementById("x").value);
 
-function add(){
-
-var n = Number(textbox1.value);
-var r = Number(textbox2.value);
-
-
-var fractN = factorial(n);
-var fractR  = n - r;
-fractR= factorial(fractR);
-var output =  fractN/fractR;
-document.getElementById("result").innerHTML = output.toString();
-sciNotation();
-
-}
+    var output = factorial(n) / (factorial(x) * factorial(n - x)) * Math.pow(p, x) * Math.pow(q, n - x);
+    document.getElementById("result").innerHTML = output;
+}//end function
 
 function factorial(n) { 
     let ans = 1; 
@@ -64,34 +27,53 @@ function factorial(n) {
     for (let i = 2; i <= n; i++) 
         ans = ans * i; 
     return ans; 
-}
-
-function sciNotation(){
-
-	var string = document.getElementById("result");
-
-	var main = string.innerText.substring(0,1);
-	var twoDec = string.innerText.substring(1,3) ;
-	var length = string.innerText.length;
-	length = length - 1;
-	
-	var output = "<p>" + main + "." + twoDec + "x10" + "<sup>" + length + "</sup></p>" 
-	document.getElementById("result2").innerHTML = output.toString();
-
-}
-
-
-
-
+}//end function
 </script> 
 
+</head>
 
-<button class="button" type="button" onclick="add();">Add</button>
+<bodys tyle="text-align: center;">
+<h1 >Binomial Distribution</h1>
+<h2 style="color:yellow;" >Binomial Experiment Conditions:</h2>
+<ol>
+	<li>The Experiment is repeated for a fix number of trials</li>	
+	<li>The trials must be independant</li>
+	<li>There are only two pissible outcomes of interest for each trial. The outcomes can be classified as success (S) or as Failure (F)</li>
+	<li>The Probability of success P(S) is the same for each trial</li>
+</ol>
+<br>
+<h3>Forumula:</h3>
+<h2>P(X=X) = n! / (n-x)!x! * p<sup>x</sup>q<sup>n-x</sup></h2>
+<h3>Variables</h3>
+<h4>P(X-x) or P(X) - Probability of success</h4>
+<h4>n - Number of trials</h4>
+<h4>p=P(s) - Number of successes</h4>
+<h4>q=P(f) - Number of failures</h4>
+<h4>x - Number of successes we are looking for.</h4>
 
+<h2>A card is randomly selected from a deck and replaced. It is drawn 5 times, find the probability of drawing exactly 3 clubs.(52 cards in a deck, irrelevant. 4 suits, relevant)<Strong>notice how easy it is to be thrown off</Strong></h2>
+<h3>n=5 p=.25 q=.75 x=3</h3>
+<input id="n" type="text" placeholder="5" value="5">
+<input id="p" type="text" placeholder="0.25" value="0.25">
+<input id="q" type="text" placeholder="0.75" value="0.75">
+<input id="x" type="text" placeholder="3" value="3">
+<br>
+<button class="button" type="button" onclick="binomial();">Calculate</button>	
+<p id="result">results</p>
 
-
-
-
-
+<h1>Another Example</h1>
+<h2>Estimate the indicated Probability by using normal distribution as an approximation to Binomial distribution</h2>
+<h2>A product is manufactued in batches of 240 and the overal rate of defects is 3%. First, Identify the variables: n, p, and q</h2>
+<h4>n=240</h4>
+<h4>p=.03</h4>
+<h4>q=.97</h4>
+<h3>Find the mean and Standard deviation of defects for each batch(for Binomial distributions we use these formulas: u=np o=√(npq))</h3>
+<h4>u=240(.03)= 7.2.        u=7.2</h4>
+<h4>o = √n(.03)(.97)= 2.64.        o=2.64</h4>
+<h3>Find the probability that a randomly selected batch contains no more than 9 defects</h3>
+<h4>we find z score then use algebra to find the answer 9-7.2/264= Z score</h4>
+<br>
+<a href="https://stevenmunich.github.io/stats/Z-Scores.html">Z-score Calculator</a>
+<br>
 </body>
 </html>
